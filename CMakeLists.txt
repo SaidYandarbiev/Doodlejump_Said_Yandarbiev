@@ -33,5 +33,47 @@ if(SFML_FOUND)
     message(STATUS "SFML_VERSION: ${SFML_VERSION}")
 endif()
 
-add_executable(Doodlejump_Said_Yandarbiev main.cpp )
-target_link_libraries(Doodlejump_Said_Yandarbiev sfml-audio sfml-graphics sfml-window sfml-system)
+add_executable(Doodlejump_Said_Yandarbiev main.cpp
+        Src/sd/Observer.cpp
+        Src/sd/Observer.h
+        Src/sd/Score.cpp
+        Src/sd/Score.h
+        Src/sd/Subject.h
+        Src/sd/Subject.cpp
+        Src/sd/Entity_Model.cpp
+        Src/sd/Entity_Model.h
+        Src/sd/Player.h
+        Src/sd/Player.cpp
+        Src/sd/Platform.h
+        Src/sd/Platform.cpp
+        Src/sd/BG_Tile.h
+        Src/sd/BG_Tile.cpp
+        Src/sd/Bonus.h
+        Src/sd/Bonus.cpp
+        Src/sd/Random.cpp
+        Src/sd/Random.h
+        Src/sd/Camera.cpp
+        Src/sd/Camera.h
+        Src/sd/Stopwatch.cpp
+        Src/sd/Stopwatch.h
+        Src/sd/World.cpp
+        Src/sd/World.h
+        Src/sd/Abstract_Factory.cpp
+        Src/sd/Abstract_Factory.h
+        Src/Game_Representation/Entity_view.cpp
+        Src/Game_Representation/Entity_view.h
+        Src/Game_Representation/Player.cpp
+        Src/Game_Representation/Player.h
+        Src/Game_Representation/Platform.cpp
+        Src/Game_Representation/Platform.h
+        Src/Game_Representation/BG_Tile.cpp
+        Src/Game_Representation/BG_Tile.h
+        Src/Game_Representation/Bonus.cpp
+        Src/Game_Representation/Bonus.h
+        Src/Game_Representation/Game.cpp
+        Src/Game_Representation/Game.h)
+target_link_libraries(Doodlejump_Said_Yandarbiev
+        sfml-audio
+        sfml-graphics
+        sfml-window
+        sfml-system)

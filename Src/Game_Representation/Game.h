@@ -1,0 +1,14 @@
+//
+// Created by said2 on 17-11-2021.
+//
+
+#ifndef DOODLEJUMP_SAID_YANDARBIEV_GAME_H
+#define DOODLEJUMP_SAID_YANDARBIEV_GAME_H
+
+
+class Game {
+
+};
+
+
+#endif //DOODLEJUMP_SAID_YANDARBIEV_GAME_H
