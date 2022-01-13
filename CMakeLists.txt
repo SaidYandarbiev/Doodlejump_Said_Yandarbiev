@@ -33,45 +33,55 @@ if(SFML_FOUND)
     message(STATUS "SFML_VERSION: ${SFML_VERSION}")
 endif()
 
-add_executable(Doodlejump_Said_Yandarbiev main.cpp
-        Src/sd/Observer.cpp
-        Src/sd/Observer.h
-        Src/sd/Score.cpp
-        Src/sd/Score.h
-        Src/sd/Subject.h
-        Src/sd/Subject.cpp
-        Src/sd/Entity_Model.cpp
-        Src/sd/Entity_Model.h
-        Src/sd/Player.h
-        Src/sd/Player.cpp
-        Src/sd/Platform.h
-        Src/sd/Platform.cpp
-        Src/sd/BG_Tile.h
-        Src/sd/BG_Tile.cpp
-        Src/sd/Bonus.h
-        Src/sd/Bonus.cpp
-        Src/sd/Random.cpp
-        Src/sd/Random.h
-        Src/sd/Camera.cpp
-        Src/sd/Camera.h
-        Src/sd/Stopwatch.cpp
-        Src/sd/Stopwatch.h
-        Src/sd/World.cpp
-        Src/sd/World.h
-        Src/sd/Abstract_Factory.cpp
-        Src/sd/Abstract_Factory.h
+add_executable(Doodlejump_Said_Yandarbiev
+        Src/Game_Representation/Observer.cpp
+        Src/Game_Representation/Observer.h
+        Src/Logic/Score.cpp
+        Src/Logic/Score.h
+        Src/Logic/Subject.h
+        Src/Logic/Subject.cpp
+        Src/Logic/Entity_Model.cpp
+        Src/Logic/Entity_Model.h
+        Src/Logic/Player_Model.h
+        Src/Logic/Player_Model.cpp
+        Src/Logic/Platform_Model.h
+        Src/Logic/Platform_Model.cpp
+        Src/Logic/BG_Tile_Model.h
+        Src/Logic/BG_Tile_Model.cpp
+        Src/Logic/Bonus_Model.h
+        Src/Logic/Bonus_Model.cpp
+        Src/Logic/Random.cpp
+        Src/Logic/Random.h
+        Src/Logic/Camera.cpp
+        Src/Logic/Camera.h
+        Src/Logic/Stopwatch.cpp
+        Src/Logic/Stopwatch.h
+        Src/Logic/World.cpp
+        Src/Logic/World.h
+        Src/Logic/Abstract_Factory.cpp
+        Src/Logic/Abstract_Factory.h
+        Src/Logic/States.h
+        Src/Logic/States.cpp
         Src/Game_Representation/Entity_view.cpp
         Src/Game_Representation/Entity_view.h
-        Src/Game_Representation/Player.cpp
-        Src/Game_Representation/Player.h
-        Src/Game_Representation/Platform.cpp
-        Src/Game_Representation/Platform.h
-        Src/Game_Representation/BG_Tile.cpp
-        Src/Game_Representation/BG_Tile.h
-        Src/Game_Representation/Bonus.cpp
-        Src/Game_Representation/Bonus.h
+        Src/Game_Representation/Player_View.cpp
+        Src/Game_Representation/Player_View.h
+        Src/Game_Representation/Platform_View.cpp
+        Src/Game_Representation/Platform_View.h
+        Src/Game_Representation/BG_Tile_View.cpp
+        Src/Game_Representation/BG_Tile_View.h
+        Src/Game_Representation/Bonus_View.cpp
+        Src/Game_Representation/Bonus_View.h
         Src/Game_Representation/Game.cpp
-        Src/Game_Representation/Game.h)
+        Src/Game_Representation/Game.h
+        Src/Game_Representation/Concrete_Factory.h
+        Src/Game_Representation/Concrete_Factory.cpp
+        Src/main.cpp
+        Src/Vector2.h
+        Src/Vector2.cpp
+        Src/window.h
+        Src/window.cpp
+        )
 target_link_libraries(Doodlejump_Said_Yandarbiev
         sfml-audio
         sfml-graphics

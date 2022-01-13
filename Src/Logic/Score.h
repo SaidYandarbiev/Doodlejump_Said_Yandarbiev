@@ -5,11 +5,10 @@
 #ifndef DOODLEJUMP_SAID_YANDARBIEV_SCORE_H
 #define DOODLEJUMP_SAID_YANDARBIEV_SCORE_H
 
-#include "Observer.h"
+#include "../Game_Representation/Observer.h"
 
-class Score : public Observer{
-
+class Score : public Observer
+{
 };
 
-
-#endif //DOODLEJUMP_SAID_YANDARBIEV_SCORE_H
+#endif // DOODLEJUMP_SAID_YANDARBIEV_SCORE_H
