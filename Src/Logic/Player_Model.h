@@ -5,7 +5,7 @@
 #ifndef DOODLEJUMP_SAID_YANDARBIEV_PLAYER_MODEL_H
 #define DOODLEJUMP_SAID_YANDARBIEV_PLAYER_MODEL_H
 
-#include "../Game_Representation/Player_View.h"
+
 #include "Bonus_Model.h"
 #include "Camera.h"
 #include "Entity_Model.h"
@@ -15,209 +15,146 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <memory>
+#include "Hp.h"
 
 class Bonus_Model;
 class Player_Model : public Entity_Model
 {
 
 public:
-        Player_Model(double x, double y, Camera* cam)
-        {
-                position.x = x;
-                position.y = y;
-                camera = cam;
-        }
+        //Constructor
+        Player_Model(double x, double y, std::shared_ptr<Utility::Camera> cam);
 
-        void Update(States* states, Vector2u windowsize, float XworldMax)
-        {
+        //This function updates the position of the model
+        void Update(std::shared_ptr<Utility::States> states, Vector2u windowsize, float XworldMax);
 
-                movingleft = states->ClickedLeft;
-                movingright = states->ClickedRight;
-                forces.SetX(0);
-                forces.SetY(9.81);
+        // Changing the direction of the model
+        void DirectionChange(Direction direction2);
 
-                if (movingleft) {
-                        DirectionChange(Direction::Left);
-                        forces.SetX(-2);
-                }
+        // Switching between jumping and falling when platform hit or when peak is reached
+        void ToggleJumpingAndFalling();
 
-                if (movingright) {
-                        DirectionChange(Direction::Right);
-                        forces.SetX(2);
-                }
-
-                if (platformhit) {
-                        falling = false;
-                        jumping = true;
-                        ysnelheid = -20;
-                        platformhit = false;
-                }
-
-                if (spring) {
-                        falling = false;
-                        jumping = true;
-                        ysnelheid = -35;
-                        spring = false;
-                }
-
-                if (ysnelheid >= 0) {
-                        falling = true;
-                        jumping = false;
-                }
-
-                if (flying && position.y > start_end.y) {
-                        flying = false;
-                        ysnelheid = -20;
-                }
-
-                ysnelheid += (forces.GetY() / 2 * std::pow(Stopwatch::getInstance()->getDeltaTime() / 100, 2));
-                position.y -= ysnelheid * (Stopwatch::getInstance()->getDeltaTime() / 500);
-
-                xsnelheid *= 0.90;
-                xversnelling = forces.GetX() / massa;
-                xsnelheid = xsnelheid + (0.5 * xversnelling * (Stopwatch::getInstance()->getDeltaTime() / 10));
-                position.x += xsnelheid * (Stopwatch::getInstance()->getDeltaTime() / 10);
-
-                if (position.x > camera->GetCameraSizeX().y) {
-                        position.x = 0;
-                }
-
-                if (position.x < 0) {
-                        position.x = XworldMax;
-                }
-
-                if (copterhit) {
-                        copterhit = false;
-                        flying = true;
-                        start_end.x = position.y;
-                        start_end.y = position.y + 100;
-                        ysnelheid = -20;
-                        ysnelheid += (forces.GetY() / 2 * std::pow(Stopwatch::getInstance()->getDeltaTime() / 100, 2));
-                        position.y -= ysnelheid * (Stopwatch::getInstance()->getDeltaTime() / 500);
-                }
-
-                if (flying) {
-                        ysnelheid = -20;
-                        ysnelheid += (forces.GetY() / 2 * std::pow(Stopwatch::getInstance()->getDeltaTime() / 100, 2));
-                        position.y -= ysnelheid * (Stopwatch::getInstance()->getDeltaTime() / 500);
-                }
-
-                camera->UpdatePlayer(position, jumping);
-
-                Vector2f pixels = camera->PositionInPixels(position);
-
-                float playergamesizex = (camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().y) * width;
-                float playergamesizey = (camera->GetRenderWindowSizeY() / camera->GetCameraSizeY().y) * height;
-
-                float factorx = playergamesizex / observerz[0]->GetWidth();
-                float factory = playergamesizey / observerz[0]->GetHeight();
-
-                for (int i = 0; i < observerz.size(); i++) {
-                        observerz[i]->HandleEvent(pixels, flying, direction, factorx, factory);
-                }
-        }
-
-        // Changing the direction
-        void DirectionChange(Direction direction2) { direction = direction2; }
-
-        // Switching betweeen jumping and falling when platform hit or when peak is reached
-        void ToggleJumpingAndFalling()
-        {
-                jumping = !jumping;
-                falling = !falling;
-        }
-
-        // Set the platform hit and set platformhit to true
-        void Platformhit(Platform_Model* platform)
-        {
-                platformhit = true;
-                platform_hit = platform;
-        }
+        //Set the platform hit and set platformhit to true
+        void Platformhit(std::shared_ptr<Platform_Model>platform);
 
         // Set the direction
-        void SetDirection(Direction l_dir) { direction = l_dir; }
+        void SetDirection(Direction l_dir);
 
-        void SetPosition(Vector2f vector2F)
-        {
-                position = vector2F;
-                float factorx = camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().GetY() * width;
-                float factory = camera->GetRenderWindowSizeY() / camera->GetCameraSizeY().GetY() * height;
-
-                factorx = factorx / observerz[0]->GetWidth();
-                factory = factory / observerz[0]->GetHeight();
-
-                Vector2f pixels = camera->PositionInPixels(position);
-                for (int i = 0; i < observerz.size(); i++) {
-                        observerz[i]->HandleEvent(pixels, flying, direction, factorx, factory);
-                }
-        }
+        //Sets the position of the model
+        void SetPosition(Vector2f vector2F);
 
         // Direction
-        Direction GetDirection() { return direction; }
+        Direction GetDirection() const;
 
-        bool GetJumping() { return jumping; }
+        //Returns the boolean falling
+        bool GetFalling() const;
 
-        bool GetFalling() { return falling; }
+        //Returns the position of the model
+        Vector2f GetPosition() const;
 
-        Vector2f GetPosition() { return position; }
+        //Sets spring to true, called when the player hits a spring
+        void Bonus_hit();
 
-        void Bonus_hit() { spring = true; }
+        //Adds a playerview to the playermodel
+        void AddPlayer(const std::shared_ptr<Entity_view>& playerView);
 
-        void AddPlayer(Player_View* playerView) { observerz.push_back(playerView); }
+        //Returns the width of the model
+        double GetWidth() const;
 
-        void SetWidth(double width1) { width = width1; }
+        //Returns the height of the model
+        double GetHeight() const;
 
-        void SetHeight(double height1) { height = height1; }
+        //Sets the copterhit boolean to true, this function is called when the helicopter bonus is hit
+        void Copterhit();
 
-        double GetWidth() { return width; }
+        //Returns the hp pointer that belongs to this model
+        std::shared_ptr<Hp> GetHp();
 
-        double GetHeight() { return height; }
+        //Sets the collision of the player to false
+        void NoCollision();
 
-        void Copterhit() { copterhit = true; }
+        //Returns the collision boolean
+        bool GetCollision() const;
+
+        //Returns the shooting boolean of the model
+        bool GetShooting() const;
+
+        //Sets the shooting boolean to false
+        void SetShooting();
 
 private:
-        std::vector<Player_View*> observerz = {};
+        //Vector containing the views belonging to the player
+        std::vector<std::shared_ptr<Entity_view>> observerz = {};
 
-        // Wanneer valt hij
+        //If falling == true then the player is falling
         bool falling = true;
-        // Wanneer springt hij
+
+        //If jumping == true then the player is jumping
         bool jumping = false;
-        // Wanneer hit hij een platform
+
+        //If platformhit == true then the player hit a platform
         bool platformhit = false;
-        // Welke platform hit hij
-        Platform_Model* platform_hit = nullptr;
-        // Welke richting faced hij
+
+        //This variable holds which platform the player hit
+        std::shared_ptr<Platform_Model> platform_hit = nullptr;
+
+        //This gives the direction the player is facing
         Direction direction = Direction::Right;
-        // Beweegt hij naar links
+
+        //If movingleft == true then the player is moving left
         bool movingleft = false;
-        // Beweegt hij naar rechts
+
+        //If movingright == true the player is moving right
         bool movingright = false;
-        // Welke positie zit hij momenteel?
+
+        //This is the position of the model
         Vector2f position = Vector2f(10, 30);
 
+        //If spring == true then the player has hit a spring
         bool spring = false;
 
-        bool copter = false;
-
+        //This is the x acceleration of the player
         float xversnelling = 0;
-        float yversnelling = 0;
 
+        //This is the x speed of the player
         float xsnelheid = 0;
+
+        //This is the y speed of the player (if the speed is positive he goes down, otherwise up)
         float ysnelheid = 0;
 
+        //This is the weight of the player
         float massa = 50;
 
+        //These are the forces that are dragging the player down
         Vector2f forces = Vector2f(0, 0);
 
+        //Width of the model
         double width = 2;
+
+        //Height of the model
         double height = 3;
 
-        Camera* camera;
+        //Camera pointer
+        std::shared_ptr<Utility::Camera> camera;
 
+        //If copterhit == true then the player has hit the helicopter bonus
         bool copterhit = false;
+
+        //If flying == true then the player is flying with the helicopter bonus
         bool flying = false;
 
+        //This gives the start and end position of when the player starts flying and when he stops
         Vector2f start_end = Vector2f(0, 0);
+
+        //This is a pointer to the hp class which holds the hp of this player
+        std::shared_ptr<Hp> hp = std::make_shared<Hp>(3);
+
+        //If collision == false then the player can't hit platforms and will fall into the void
+        bool collision = true;
+
+        //If shooting == true then the player is shooting
+        bool shooting = false;
 };
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_PLAYER_MODEL_H

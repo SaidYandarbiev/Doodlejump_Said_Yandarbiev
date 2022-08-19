@@ -3,3 +3,6 @@
 //
 
 #include "States.h"
+void Utility::States::SetShooting() {
+        Shooting = false;
+}

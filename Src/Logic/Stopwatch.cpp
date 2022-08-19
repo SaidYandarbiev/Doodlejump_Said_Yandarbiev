@@ -3,3 +3,9 @@
 //
 
 #include "Stopwatch.h"
+Utility::Stopwatch* Utility::Stopwatch::getInstance()
+{
+        static Stopwatch instance;
+
+        return &instance;
+}

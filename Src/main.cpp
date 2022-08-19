@@ -22,17 +22,24 @@ int main()
                 }
 
                 // Game loop.
-                if (game.GetWindow()->m_window.isOpen()) {
+                if (game.GetWindow()->m_window.isOpen() && !game.GetEnded()) {
                         game.HandleInput();
-                        Stopwatch::getInstance()->tick();
+                        Utility::Stopwatch::getInstance()->tick();
 
-                        Stopwatch::getInstance()->FrameBalancing();
+                        Utility::Stopwatch::getInstance()->FrameBalancing();
 
                         game.Update();
 
                         game.Render();
                 }
 
+                if(game.GetEnded()){
+                        sleep(5);
+                        game.GetWindow()->SetIsDone();
+                }
+
+
                 // Sleep for 0.2 seconds
         }
+
 }
