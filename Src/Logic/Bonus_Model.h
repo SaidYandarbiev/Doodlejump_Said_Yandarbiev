@@ -16,87 +16,68 @@ class Player_Model;
 class Bonus_Model : public Entity_Model
 {
 public:
-        Bonus_Model(Vector2f pos, bool spring1, bool helicopter, Camera* camera1)
-        {
+        //Constructor
+        Bonus_Model(Vector2f pos, bool spring1, bool helicopter, bool hp, bool spike, std::shared_ptr<Utility::Camera> camera1);
 
-                spring = spring1;
-                copter = helicopter;
+        //Function that is called when a player has touched the bonus
+        void PlayerTouched();
 
-                camera = camera1;
-                position = pos;
-        }
+        //Function that gives the bonus model the bonus view that belongs to the model
+        void AddBonus(std::shared_ptr<Bonus_View> bonusView);
 
-        void PlayerTouched()
-        {
+        //Function that sets the position of the bonus model
+        void SetPosition(Vector2f vector2I);
 
-                trigger = true;
+        //Function that returns the position of the model
+        Vector2f GetPosition() const;
 
-                height = 3;
+        //Function that returns the spring boolean
+        bool GetSpring() const;
 
-                float playergamesizex = (camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().y) * width;
-                float playergamesizey = (camera->GetRenderWindowSizeY() / camera->GetCameraSizeY().y) * height;
+        //Function that returns the copter boolean
+        bool GetCopter() const;
 
-                float factorx = playergamesizex / bonusView->GetWidth();
-                float factory = playergamesizey / bonusView->GetHeight();
+        void Update();
 
-                Vector2f pixels = camera->PositionInPixels(position);
+        //Function that returns the width of the model
+        double GetWidth() const;
 
-                bonusView->HandleEvent(pixels, spring, copter, trigger, factorx, factory);
-        }
+        //Function that returns the height of the model
+        double GetHeight() const;
 
-        void AddBonus(Bonus_View* platform) { bonusView = platform; }
+        //Function that returns the health boolean
+        bool GetHealth() const;
 
-        void SetPosition(Vector2f vector2I)
-        {
+        //Function that returns the spikes boolean
+        bool GetSpikes() const;
 
-                position = vector2I;
-                float playergamesizex = (camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().y) * width;
-                float playergamesizey = (camera->GetRenderWindowSizeY() / camera->GetCameraSizeY().y) * height;
-
-                float factorx = playergamesizex / bonusView->GetWidth();
-                float factory = playergamesizey / bonusView->GetHeight();
-
-                Vector2f pixels = camera->PositionInPixels(position);
-                bonusView->HandleEvent(pixels, spring, copter, trigger, factorx, factory);
-        }
-
-        Vector2f GetPosition() { return position; }
-
-        bool GetSpring() { return spring; }
-
-        bool GetCopter() { return copter; }
-
-        void Update()
-        {
-                float playergamesizex = (camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().y) * width;
-                float playergamesizey = (camera->GetRenderWindowSizeY() / camera->GetCameraSizeY().y) * height;
-
-                float factorx = playergamesizex / bonusView->GetWidth();
-                float factory = playergamesizey / bonusView->GetHeight();
-                Vector2f pixels = camera->PositionInPixels(position);
-                bonusView->HandleEvent(pixels, spring, copter, trigger, factorx, factory);
-        }
-
-        void deleteview() { delete bonusView; }
-
-        double GetWidth() { return width; }
-
-        double GetHeight() { return height; }
-
-        Bonus_View* GetView() { return bonusView; }
+        //Function that returns the view of the model
+        std::shared_ptr<Bonus_View> GetView() const;
 
 private:
+        //Position of the model
         Vector2f position = Vector2f(0, 0);
 
-        Bonus_View* bonusView = nullptr;
+        //View of the model
+        std::shared_ptr<Bonus_View> bonusView = nullptr;
 
+        //If a player has touched the bonus then trigger == true
         bool trigger = false;
-        bool spring = false;
-        bool copter = false;
 
+        //If the bonus is a spring then spring == true
+        bool spring = false;
+        //If the bonus is a helicopter then copter == true
+        bool copter = false;
+        //If the bonus is health then health == true
+        bool health = false;
+        //If the bonus is spikes then spikes == true
+        bool spikes = false;
+
+        //Width of the model
         double width = 1;
+        //Height of the model
         double height = 1;
-        Camera* camera;
+        std::shared_ptr<Utility::Camera> camera;
 };
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_BONUS_MODEL_H

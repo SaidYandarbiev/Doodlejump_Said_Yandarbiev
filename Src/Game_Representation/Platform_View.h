@@ -7,43 +7,25 @@
 
 #include "Entity_view.h"
 
+//Class representing the view of a platform
 class Platform_View : public Entity_view
 {
 public:
-        Platform_View(bool breaker, bool vertical, bool horizontal, bool broken, Vector2f pos)
-        {
 
-                if (breaker && !broken) {
-                        texture.loadFromFile("breaking_platform.png");
-                }
+        //Constructor
+        Platform_View(bool breaker, bool vertical, bool horizontal, bool broken, bool notmoving, Vector2f pos);
 
-                else if (broken) {
-                        texture.loadFromFile("broken_platform.png");
-                }
+        //Function that returns the width of a platform
+        double GetWidth() override;
 
-                else if (horizontal || vertical) {
-                        texture.loadFromFile("move_panel.png");
-                }
+        //Function that returns the height of a platform
+        double GetHeight() override;
 
-                else {
-                        texture.loadFromFile("static_panel.png");
-                }
+        //Function that changes the position of the sprite of the platform
+        void SetPosition(Vector2f pos);
 
-                sprite->setTexture(texture);
-                sprite->setPosition(pos.x, pos.y);
-        }
-
-        double GetWidth() { return sprite->getTexture()->getSize().x; }
-
-        double GetHeight() { return sprite->getTexture()->getSize().y; }
-
-        void SetPosition(Vector2f pos) { sprite->setPosition(pos.x, pos.y); }
-
-        void HandleEvent(Vector2f vector2F, float factorx, float factory)
-        {
-                sprite->setPosition(vector2F.x, vector2F.y);
-                sprite->setScale(factorx, factory);
-        }
+        //Event handled every update
+        void HandleEvent(Vector2f vector2F, float factorx, float factory) override;
 };
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_PLATFORM_VIEW_H

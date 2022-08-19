@@ -12,55 +12,35 @@
 class BG_Tile_Model : public Entity_Model
 {
 public:
-        BG_Tile_Model(Vector2f pos, Camera* cam)
-        {
-                position = pos;
-                camera = cam;
-        }
+        //Constructor
+        BG_Tile_Model(Vector2f pos, std::shared_ptr<Utility::Camera> cam);
 
-        void Update()
-        {
-                Vector2f pixels = camera->PositionInPixels(position);
-                float playergamesizex = (camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().y) * width;
-                float playergamesizey = (camera->GetRenderWindowSizeY() / camera->GetCameraSizeY().y) * height;
+        //Updates the bg tile
+        void Update();
 
-                float factorx = playergamesizex / bg->GetWidth();
-                float factory = playergamesizey / bg->GetHeight();
+        //This function returns the positions of the bg tile model
+        Vector2f GetPosition() const override;
 
-                bg->HandleEvent(pixels, factorx, factory);
-        }
+        //This function sets the position of the bg tile model
+        void SetPosition(Vector2f pos) override;
 
-        Vector2f GetPosition() { return position; }
+        //This function sets the bg tile view of the bg tile model
+        void SetBG_Tile_View(std::shared_ptr<BG_Tile_View> bgTileView);
 
-        void SetPosition(Vector2f pos)
-        {
-                position = pos;
-                Vector2f pixels = camera->PositionInPixels(position);
+        //This function returns the width of the bg tile model
+        float GetWidth() const;
 
-                float playergamesizex = (camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().y) * width;
-                float playergamesizey = (camera->GetRenderWindowSizeY() / camera->GetCameraSizeY().y) * height;
+        //This function returns the height of the bg tile model
+        float GetHeight() const;
 
-                float factorx = playergamesizex / bg->GetWidth();
-                float factory = playergamesizey / bg->GetHeight();
-
-                bg->HandleEvent(pixels, factorx, factory);
-        }
-
-        void SetBG_Tile_View(BG_Tile_View* bgTileView) { bg = bgTileView; }
-
-        float GetWidth() { return width; }
-
-        float GetHeight() { return height; }
-
-        BG_Tile_View* Get_BG_TileView() { return bg; }
+        //This function returns the bg tile view of the bg tile model
+        std::shared_ptr<BG_Tile_View> Get_BG_TileView() const;
 
 private:
-        BG_Tile_View* bg = nullptr;
-
+        std::shared_ptr<BG_Tile_View> bg = nullptr;
         float width = 1;
         float height = 1;
-
-        Camera* camera;
+        std::shared_ptr<Utility::Camera> camera;
 };
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_BG_TILE_MODEL_H

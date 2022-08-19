@@ -3,3 +3,8 @@
 //
 
 #include "Score.h"
+void Score::HandleEvent(float height) {
+        score = height;
+}
+
+float Score::GetScore() const {return score;}

@@ -6,15 +6,22 @@
 #define DOODLEJUMP_SAID_YANDARBIEV_ENTITY_VIEW_H
 
 #include "../Logic/Entity_Model.h"
-#include "Observer.h"
+#include "../Logic/Observer.h"
 
 class Entity_view : public Observer
 {
 
 public:
-        double GetWidth() { return sprite->getTexture()->getSize().x; }
+        //Function that returns the width of an entity
+        double GetWidth() override;
 
-        double GetHeight() { return sprite->getTexture()->getSize().y; }
+        //Function that returns the height of an entity
+        double GetHeight() override;
+
+        //Function that returns the sprite of an entity
+        std::shared_ptr<sf::Sprite> GetSprite() const;
+
+
 };
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_ENTITY_VIEW_H

@@ -6,125 +6,117 @@
 #define DOODLEJUMP_SAID_YANDARBIEV_CONCRETE_FACTORY_H
 
 #include "../Logic/Abstract_Factory.h"
+#include "Player_View.h"
 
-class Concrete_Factory
+class Concrete_Factory : public Abstract_Factory
 {
 public:
-        Concrete_Factory(Vector2f windowsize) { RenderWindowSize = windowsize; }
+        //Constructor
+        explicit Concrete_Factory(Vector2f windowsize);
 
-        Player_Model* CreatePlayer_Model(Vector2f vector2I, Camera* camera)
-        {
+        //This function is used to create and return the player model
+        std::shared_ptr<Player_Model> CreatePlayer_Model(Vector2f vector2I, std::shared_ptr<Utility::Camera> camera) override;
 
-                Player_Model* players = new Player_Model(vector2I.x, vector2I.y, camera);
+        //This function is used to create and return a platform model
+        std::shared_ptr<Platform_Model> CreatePlatform_Model(Vector2f vector2I, bool vertical, bool horizontal, bool breaking,
+                                             bool broken, bool notmoving, std::shared_ptr<Utility::Camera> camera) override;
 
-                Player_View* playerz = CreatePlayer_View(vector2I, players->GetDirection());
+        //This function is used to create and return a background tile model
+        std::shared_ptr<BG_Tile_Model> CreateBG_Tile_Model(Vector2f vector2I, std::shared_ptr<Utility::Camera> camera) override;
 
-                player = playerz;
-                players->AddPlayer(playerz);
+        //This function is used to create and return a bonus model
+        std::shared_ptr<Bonus_Model> CreateBonus_Model(Vector2f vector2I, bool spring, bool helicopter, bool health,
+                                                       bool spikes,
+                                                       std::shared_ptr<Utility::Camera> camera) override;
 
-                return players;
-        }
+        //This function is used to create and return a simple enemy model
+        std::shared_ptr<Simple_Enemy_Model> CreateSimple_Enemy_Model(Vector2f vector2I, std::shared_ptr<Utility::Camera> camera)override;
 
-        Platform_Model* CreatePlatform_Model(Vector2f vector2I, bool vertical, bool horizontal, bool breaking,
-                                             bool broken, Camera* camera)
-        {
+        //This function is used to create and return a complex enemy model
+        std::shared_ptr<Complex_Enemy_Model> CreateComplex_Enemy_Model(Vector2f vector2I, std::shared_ptr<Utility::Camera> camera)override;
 
-                Platform_Model* platformModel = new Platform_Model(vertical, horizontal, breaking, vector2I, camera);
-                Vector2f pixels = camera->PositionInPixels(vector2I);
-                Platform_View* platformView = CreatePlatform_View(pixels, vertical, horizontal, breaking, broken);
+        //This function is used to create and return a ball model
+        std::shared_ptr<Ball_Model> CreateBall_Model(Vector2f vector2I, bool enemy, bool player, std::shared_ptr<Utility::Camera> camera)override;
 
-                platformModel->AddPlatform(platformView);
+        //This function is used to create and return the view of the player
+        std::shared_ptr<Player_View> CreatePlayer_View(Vector2f vector2I, Direction direction) override;
 
-                return platformModel;
-        }
+        //This function is used to create and return the view of a platform
+        std::shared_ptr<Platform_View> CreatePlatform_View(Vector2f vector2I, bool vertical, bool horizontal, bool breaking,
+                                           bool broken, bool notmoving) override;
 
-        BG_Tile_Model* CreateBG_Tile_Model(Vector2f vector2I, Camera* camera)
-        {
-                BG_Tile_Model* bgTileModel = new BG_Tile_Model(vector2I, camera);
-                float factorx = camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().y;
-                factorx = factorx / 18;
-                BG_Tile_View* bgTileView = CreateBG_Tile_View(vector2I, factorx);
-                BG_Tile.push_back(bgTileView);
+        //This function is used to create and return the view of a background tile
+        std::shared_ptr<BG_Tile_View> CreateBG_Tile_View(Vector2f vector2I, float x) override;
 
-                bgTileModel->SetBG_Tile_View(bgTileView);
-                return bgTileModel;
-        }
+        //This function is used to create and return the view of a bonus
+        std::shared_ptr<Bonus_View> CreateBonus_View(Vector2f vector2I, bool spring, bool copter, bool health, bool spikes) override;
 
-        Bonus_Model* CreateBonus_Model(Vector2f vector2I, bool spring, bool helicopter, Camera* camera)
-        {
-                Bonus_Model* bonusModel = new Bonus_Model(vector2I, spring, helicopter, camera);
-                Vector2f pixels = camera->PositionInPixels(vector2I);
-                Bonus_View* bonusView = CreateBonus_View(pixels, bonusModel->GetSpring());
+        //This function is used to create and return the view of a simple enemy
+        std::shared_ptr<Simple_Enemy_View> CreateSimple_Enemy_View(Vector2f vector2I) override;
 
-                bonusModel->AddBonus(bonusView);
-                bonusModel->SetPosition(vector2I);
+        //This function is used to create and return the view of a complex enemy
+        std::shared_ptr<Complex_Enemy_View> CreateComplex_Enemy_View(Vector2f vector2F) override;
 
-                return bonusModel;
-        }
+        //This function is used to create and return the view of a ball
+        std::shared_ptr<Ball_View> CreateBall_View(Vector2f vector2F) override;
 
-        Player_View* CreatePlayer_View(Vector2f vector2I, Direction direction)
-        {
-                Player_View* playerView = new Player_View(vector2I, direction);
-                player = playerView;
-                return playerView;
-        }
+        //This function deletes the first bonus view in the vector "Bonus"
+        void Pop_Bonus_Front() override;
 
-        Platform_View* CreatePlatform_View(Vector2f vector2I, bool vertical, bool horizontal, bool breaking,
-                                           bool broken)
-        {
-                Platform_View* platformView = new Platform_View(breaking, vertical, horizontal, broken, vector2I);
+        //This function deletes the first platform view in the vector "platforms"
+        void Pop_Platfrom_Front() override;
 
-                platforms.push_back(platformView);
+        //This function returns a vector of platform views
+        std::vector<std::shared_ptr<Observer>> GetPlatform() const override;
 
-                return platformView;
-        }
+        //This function returns a vector of background tile views
+        std::vector<std::shared_ptr<Observer>> GetBG_Tile() const override;
 
-        BG_Tile_View* CreateBG_Tile_View(Vector2f vector2I, float x)
-        {
-                BG_Tile_View* bgTileView = new BG_Tile_View(vector2I, x);
-                BG_Tile.push_back(bgTileView);
-                return bgTileView;
-        }
+        //This function returns a vector of bonus views
+        std::vector<std::shared_ptr<Observer>> GetBonus() const override;
 
-        Bonus_View* CreateBonus_View(Vector2f vector2I, bool spring)
-        {
-                Bonus_View* bonusView = new Bonus_View(vector2I, spring);
-                Bonus.push_back(bonusView);
+        //This function returns a vector of enemy views
+        std::vector<std::shared_ptr<Observer>> GetEnemy() const override;
 
-                return bonusView;
-        }
+        //This function returns a pointer to the player view
+        std::shared_ptr<Observer> GetPlayer() const override;
 
-        void Pop_Bonus_Front() { Bonus.erase(Bonus.begin()); }
+        //This function returns a vector of ball views
+        std::vector<std::shared_ptr<Observer>> GetShots() const override;
 
-        void Pop_Platfrom_Front() { platforms.erase(platforms.begin()); }
+        //This function sets the value of the platforms view to "plat"
+        void SetPlatforms(std::vector<std::shared_ptr<Observer>> plat) override;
 
-        std::vector<Observer*> GetPlatform() { return platforms; }
+        //This function deletes the "plat" platform from the vector "platforms"
+        void Delete_platform_it(std::shared_ptr<Platform_Model> plat) override;
 
-        std::vector<Observer*> GetBG_Tile() { return BG_Tile; }
+        //This function deletes the "enemy" enemy from the vector "Enemy"
+        void Delete_enemy_it(std::shared_ptr<Entity_Model> enemy) override;
 
-        std::vector<Observer*> GetBonus() { return Bonus; }
+        //This function deletes the "bonus" bonus from the vector "Bonus"
+        void Delete_bonus_it(std::shared_ptr<Bonus_Model> bonus) override;
 
-        Observer* GetPlayer() { return player; }
-
-        void SetPlatforms(std::vector<Observer*> plat) { platforms = plat; }
-
-        void Delete_platform_it(Platform_Model* plat)
-        {
-                auto it = std::find(platforms.begin(), platforms.end(), plat->GetView());
-                platforms.erase(it);
-        }
-
-        void Delete_bonus_it(Bonus_Model* bonus)
-        {
-                auto it = std::find(Bonus.begin(), Bonus.end(), bonus->GetView());
-                Bonus.erase(it);
-        }
+        //This function deletes the "ball" shot from the vector "Shots"
+        void Delete_Shot_It(std::shared_ptr<Ball_Model> ball) override;
 
 private:
-        std::vector<Observer*> platforms = {};
-        std::vector<Observer*> BG_Tile = {};
-        std::vector<Observer*> Bonus = {};
-        Observer* player = nullptr;
+        //Vector with all platform views
+        std::vector<std::shared_ptr<Observer>> platforms = {};
+
+        //Vector with all background tile views
+        std::vector<std::shared_ptr<Observer>> BG_Tile = {};
+
+        //Vector with all bonus views
+        std::vector<std::shared_ptr<Observer>> Bonus = {};
+
+        //Pointer with the player view
+        std::shared_ptr<Observer> player = nullptr;
+
+        //Vector with all enemy views
+        std::vector<std::shared_ptr<Observer>> Enemy = {};
+
+        //Vector withh all shot (ball) views
+        std::vector<std::shared_ptr<Observer>> Shots = {};
         Vector2f RenderWindowSize = Vector2f(0, 0);
 };
 

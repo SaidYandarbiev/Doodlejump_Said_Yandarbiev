@@ -6,51 +6,63 @@
 #define DOODLEJUMP_SAID_YANDARBIEV_CAMERA_H
 
 #include "../Vector2.h"
+#include "vector"
+#include "iostream"
 
+namespace Utility{
 class Camera
 {
 public:
-        Camera(Vector2u windowsize) { RenderWindow = windowsize; }
+        //Constructor
+        explicit Camera(Vector2u windowsize);
 
-        void UpdatePlayer(Vector2f position, bool jumping)
-        {
-                position.x = position.x - OorsprongPunt.x;
-                position.y = position.y - OorsprongPunt.y;
+        //Function that updates the position of the player
+        void UpdatePlayer(Vector2f position1, bool jumping);
 
-                if (position.y > CameraSizeY.y / 2 && jumping) {
-                        OorsprongPunt.y = OorsprongPunt.y + (position.y - CameraSizeY.y / 2);
-                }
-        }
+        //Function that determines the factor that the position of the view of the model has to be multiplied with
+        std::vector<float> UpdateBonus(double width, double height, double bonuswidth, double bonusheight) const;
 
-        Vector2f PositionInPixels(Vector2f position2)
-        {
-                position2.x = position2.x - OorsprongPunt.x;
-                position2.y = position2.y - OorsprongPunt.y;
+        //Returns the position in pixels of the given position
+        Vector2f PositionInPixels(Vector2f position2) const;
 
-                position2.x *= (RenderWindow.x / CameraSizeX.y);
-                position2.y *= (RenderWindow.y / CameraSizeY.y);
-                position2.y = RenderWindow.y - position2.y;
+        //Returns the x size of the camera
+        Vector2f GetCameraSizeX();
 
-                return position2;
-        }
+        //Returns the y size of the camera
+        Vector2f GetCameraSizeY();
 
-        Vector2f GetCameraSizeX() { return CameraSizeX; }
+        //Returns the renderwindow x size
+        float GetRenderWindowSizeX() const;
 
-        Vector2f GetCameraSizeY() { return CameraSizeY; }
+        //Returns the renderwindow y size
+        float GetRenderWindowSizeY() const;
 
-        float GetRenderWindowSizeX() { return RenderWindow.x; }
+        //Returns the position of the camera
+        float GetPosition() const;
 
-        float GetRenderWindowSizeY() { return RenderWindow.y; }
-
-        float GetPosition() { return OorsprongPunt.y; }
+        //Returns the boolean gameended
+        bool getGameEnded()const;
 
 private:
+        //The size of the renderwindow
         Vector2u RenderWindow = Vector2u(600, 900);
+
+        //Position of the camera
         Vector2f position = Vector2f(0, 0);
+
+        //X size of the camera
         Vector2f CameraSizeX = Vector2f(0, 20);
+
+        //Y size of the camera
         Vector2f CameraSizeY = Vector2f(0, 40);
 
+        //Gives the source point
         Vector2f OorsprongPunt = Vector2f(0, 0);
+
+        //If gameended boolean == true, then the game has ended
+        bool gameended = false;
 };
+
+}
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_CAMERA_H
