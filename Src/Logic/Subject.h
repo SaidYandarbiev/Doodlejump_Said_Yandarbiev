@@ -5,13 +5,15 @@
 #ifndef DOODLEJUMP_SAID_YANDARBIEV_SUBJECT_H
 #define DOODLEJUMP_SAID_YANDARBIEV_SUBJECT_H
 
-#include "../Game_Representation/Observer.h"
 #include "../Vector2.h"
+#include "Observer.h"
 #include "vector"
-
+#include "SFML/Graphics.hpp"
+namespace Logic{
 class Subject
 {
 public:
+        //Function used to notify observers
         void NotifyObservers()
         {
                 for (int i = 0; i < observers.size(); i++) {
@@ -19,11 +21,17 @@ public:
                 }
         }
 
-        void AddObserver(Observer* observer) { observers.push_back(observer); }
+        //Function used to add an observer
+        void AddObserver(std::shared_ptr<Observer> observer) { observers.push_back(observer); }
 
 protected:
+        //Position of the subject
         Vector2f position = Vector2f(0, 0);
-        std::vector<Observer*> observers;
+
+        //Vector with all the observers
+        std::vector<std::shared_ptr<Observer>> observers;
 };
+}
+
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_SUBJECT_H

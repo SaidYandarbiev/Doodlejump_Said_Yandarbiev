@@ -12,12 +12,22 @@ using namespace std;
 class Window
 {
 public:
+        //Constructor
         Window() { Setup("Window", sf::Vector2u(640, 480)); }
+
+        //Constructor
         Window(const string& l_title, const sf::Vector2u& l_size) { Setup(l_title, l_size); };
+
+        //Destructor
         ~Window() { Destroy(); };
+
+        //Function that clears everything on the window
         void BeginDraw() { m_window.clear(sf::Color::Black); };
+
+        //Function that displays everything that was just drawn
         void EndDraw() { m_window.display(); };
 
+        //Function that updates the window
         void Update()
         {
                 sf::Event event;
@@ -29,6 +39,7 @@ public:
                         }
                 }
         };
+
 
         bool IsDone() { return m_isDone; };
         bool IsFullscreen() { return m_isFullscreen; };
@@ -42,7 +53,9 @@ public:
                 Create();
         };
 
+        //Function that draws an object on the window
         void Draw(sf::Drawable& l_drawable) { m_window.draw(l_drawable); };
+
         sf::RenderWindow m_window;
 
 private:

@@ -9,141 +9,104 @@
 #include "Camera.h"
 #include "Entity_Model.h"
 
+//Class that represents the model of a platform
 class Platform_Model : public Entity_Model
 {
 public:
-        Platform_Model(bool verticalmove, bool horizontalmove, bool breaker, Vector2f pos, Camera* cam)
-        {
-                position = pos;
-                if (horizontalmove) {
-                        Lhorizontalpos = pos;
-                        movingright = true;
+        //Constructor
+        Platform_Model(bool verticalmove, bool horizontalmove, bool breaker, bool Moving,
+                       Vector2f pos, std::shared_ptr<Utility::Camera> cam);
 
-                        Rhorizontalpos = pos;
-                        Rhorizontalpos.x += 4;
-                }
+        //This function returns the position of the platform
+        Vector2f GetPosition();
 
-                if (verticalmove) {
-                        Dverticalpos = pos;
-                        movingup = true;
+        //This function sets playerhit on true if the player has hit this platform
+        void PlayerHit();
 
-                        Uverticalpos = pos;
-                        Uverticalpos.y += 7;
-                }
+        //This function sets the platformview to the given platformview
+        void AddPlatform(std::shared_ptr<Platform_View> platform);
 
-                verticalmoving = verticalmove;
-                horizontalmoving = horizontalmove;
+        //This function returns the width of the platform
+        double GetWidth() const;
 
-                breaking = breaker;
-                camera = cam;
-        }
+        //This function returns the height of the platform
+        double GetHeight() const;;
 
-        Vector2f GetPosition() { return position; }
+        //This function sets the position of the platform to the given position
+        void SetPosition(Vector2f pos) override;
 
-        void SetWidth(double width1) { width = width1; }
+        //This function updates the position of the model
+        void Update();
 
-        void SetHeight(double heigth1) { height = heigth1; }
+        //This function returns the breaking boolean
+        bool GetBreaking() const;
 
-        void AddPlatform(Platform_View* platform) { platformView = platform; }
+        //This function sets the broken boolean to true
+        void Broken();
 
-        double GetWidth() { return width; }
+        //This function returns the broken boolean
+        bool GetBroken() const;
 
-        double GetHeight() { return height; };
-
-        void SetPosition(Vector2f pos)
-        {
-                position = pos;
-                Vector2f pixels = camera->PositionInPixels(position);
-                platformView->SetPosition(pixels);
-        }
-
-        void Update()
-        {
-                if (horizontalmoving) {
-                        if (movingright) {
-                                position.x += 0.2;
-                        }
-
-                        if (movingleft) {
-                                position.x -= 0.2;
-                        }
-
-                        if (position.x >= Rhorizontalpos.x && movingright) {
-                                movingleft = true;
-                                movingright = false;
-                        }
-
-                        if (position.x <= Lhorizontalpos.x && movingleft) {
-                                movingleft = false;
-                                movingright = true;
-                        }
-                }
-
-                if (verticalmoving) {
-                        if (movingup) {
-                                position.y += 0.2;
-                        }
-
-                        if (movingdown) {
-                                position.y -= 0.2;
-                        }
-
-                        if (position.y >= Uverticalpos.y && movingup) {
-                                movingdown = true;
-                                movingup = false;
-                        }
-
-                        if (position.y <= Dverticalpos.y && movingdown) {
-                                movingdown = false;
-                                movingup = true;
-                        }
-                }
-                Vector2f pixels = camera->PositionInPixels(position);
-                float playergamesizex = (camera->GetRenderWindowSizeX() / camera->GetCameraSizeX().y) * width;
-                float playergamesizey = (camera->GetRenderWindowSizeY() / camera->GetCameraSizeY().y) * height;
-
-                float factorx = playergamesizex / platformView->GetWidth();
-                float factory = playergamesizey / platformView->GetHeight();
-                platformView->HandleEvent(pixels, factorx, factory);
-        }
-
-        void DeleteView() { delete platformView; }
-
-        bool GetBreaking() { return breaking; }
-
-        void Broken() { broken = true; }
-
-        bool GetBroken() { return broken; }
-
-        Platform_View* GetView() { return platformView; }
+        //This function returns the view of the platform
+        std::shared_ptr<Observer> GetView() override;
 
 private:
+        //Position of the model
         Vector2f position = Vector2f(5, 20);
 
+        //If verticalmoving == true then the platform is moving vertically
         bool verticalmoving = false;
+
+        //If horizontalmoving == true then the platform is moving horizontally
         bool horizontalmoving = false;
+
+        //If breaking == true then the platform is a breaking platform
         bool breaking = false;
 
+        //Width of the model
         double width = 3;
+
+        //Height of the model
         double height = 1;
 
-        Platform_View* platformView = nullptr;
+        //View of the model
+        std::shared_ptr<Platform_View> platformView = nullptr;
 
+        //If the platform is moving horizontal, this is the most left position for the platform
         Vector2f Lhorizontalpos = Vector2f(0, 0);
+
+        //If the platform is moving horizontal, this is the most right position for the platform
         Vector2f Rhorizontalpos = Vector2f(0, 0);
 
+        //If the platform is moving vertical, this is the lowest position for the platform
         Vector2f Dverticalpos = Vector2f(0, 0);
+
+        //If the platform is moving vertical, this is the highest position for the platform
         Vector2f Uverticalpos = Vector2f(0, 0);
 
+        //If movingright == true then the platform is moving right
         bool movingright = false;
+
+        //If movingleft == true then the platform is moving left
         bool movingleft = false;
 
+        //If movingup == true then the platform is moving up
         bool movingup = false;
+
+        //If movingdown == true then the platform is moving down
         bool movingdown = false;
 
-        Camera* camera;
+        //Pointer to camera
+        std::shared_ptr<Utility::Camera> camera;
 
         bool broken = false;
+
+        //If playerhit == true then the player has hit the platform
+        bool playerhit = false;
+
+        //If notmoving == true then the player has hit the platform and it starts moving horizontally or vertically
+        //depending on different booleans
+        bool notmoving = false;
 };
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_PLATFORM_MODEL_H

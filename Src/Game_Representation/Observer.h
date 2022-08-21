@@ -8,6 +8,7 @@
 #include "../Vector2.h"
 #include "SFML/Graphics.hpp"
 #include "string"
+#include <memory>
 enum class Direction
 {
         Left,
@@ -17,16 +18,23 @@ enum class Direction
 class Observer
 {
 public:
-        sf::Sprite* GetSprite() { return sprite; }
+        std::shared_ptr<sf::Sprite> GetSprite() const { return sprite; }
         void HandleEvent(Vector2f vector2I)
         {
                 sprite->setPosition(vector2I.x, vector2I.y);
                 sprite->setTexture(texture);
         }
 
-        void SetPosition(Vector2i vector2I) { sprite->setPosition(vector2I.x, vector2I.y); }
+        virtual double GetWidth(){return 0;}
 
-        sf::Sprite* sprite = new sf::Sprite;
+        virtual double GetHeight(){return 0;}
+
+        virtual void HandleEvent(Vector2f pos, bool flying, Direction direction, float factorx, float factory){};
+        virtual void HandleEvent(Vector2f vector2F, float factorx, float factory){};
+
+        void SetPosition(Vector2i vector2I) const { sprite->setPosition(vector2I.x, vector2I.y); }
+
+        std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>(sf::Sprite());
 
 protected:
         sf::Texture texture;

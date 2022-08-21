@@ -14,7 +14,7 @@ int main()
         Game game("Doodlejump", sf::Vector2u(600, 900)); // Creating our game object.
 
         while (!game.GetWindow()->IsDone()) {
-                sf::Event event;
+                sf::Event event{};
                 while (game.GetWindow()->m_window.pollEvent(event)) {
                         if (event.type == sf::Event::Closed) {
                                 game.GetWindow()->SetIsDone();
@@ -22,17 +22,24 @@ int main()
                 }
 
                 // Game loop.
-                if (game.GetWindow()->m_window.isOpen()) {
+                if (game.GetWindow()->m_window.isOpen() && !game.GetEnded()) {
                         game.HandleInput();
-                        Stopwatch::getInstance()->tick();
+                        Utility::Stopwatch::getInstance()->tick();
 
-                        Stopwatch::getInstance()->FrameBalancing();
+                        Utility::Stopwatch::getInstance()->FrameBalancing();
 
                         game.Update();
 
                         game.Render();
                 }
 
+                if(game.GetEnded()){
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+                                exit(0);}
+                }
+
+
                 // Sleep for 0.2 seconds
         }
+
 }

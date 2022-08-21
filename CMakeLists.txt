@@ -25,6 +25,7 @@ endif()
 link_directories(SFML_LIBRARY_DIR )
 include_directories(SFML_INCLUDE_DIR)
 
+
 find_package(SFML 2.5.1 COMPONENTS system window graphics network audio REQUIRED)
 
 if(SFML_FOUND)
@@ -34,8 +35,33 @@ if(SFML_FOUND)
 endif()
 
 add_executable(Doodlejump_Said_Yandarbiev
-        Src/Game_Representation/Observer.cpp
-        Src/Game_Representation/Observer.h
+        Src/main.cpp
+        Src/Vector2.h
+        Src/Vector2.cpp
+        Src/window.h
+        Src/window.cpp
+        Src/Logic/Observer.cpp
+        Src/Logic/Observer.h
+        Src/Game_Representation/Entity_view.cpp
+        Src/Game_Representation/Entity_view.h
+        Src/Game_Representation/Player_View.cpp
+        Src/Game_Representation/Player_View.h
+        Src/Game_Representation/Platform_View.cpp
+        Src/Game_Representation/Platform_View.h
+        Src/Game_Representation/BG_Tile_View.cpp
+        Src/Game_Representation/BG_Tile_View.h
+        Src/Game_Representation/Bonus_View.cpp
+        Src/Game_Representation/Bonus_View.h
+        Src/Game_Representation/Game.cpp
+        Src/Game_Representation/Game.h
+        Src/Game_Representation/Concrete_Factory.h
+        Src/Game_Representation/Concrete_Factory.cpp
+        Src/Game_Representation/Complex_Enemy_View.cpp
+        Src/Game_Representation/Complex_Enemy_View.h
+        Src/Game_Representation/Simple_Enemy_View.cpp
+        Src/Game_Representation/Simple_Enemy_View.h
+        Src/Game_Representation/Ball_View.cpp
+        Src/Game_Representation/Ball_View.h
         Src/Logic/Score.cpp
         Src/Logic/Score.h
         Src/Logic/Subject.h
@@ -62,26 +88,18 @@ add_executable(Doodlejump_Said_Yandarbiev
         Src/Logic/Abstract_Factory.h
         Src/Logic/States.h
         Src/Logic/States.cpp
-        Src/Game_Representation/Entity_view.cpp
-        Src/Game_Representation/Entity_view.h
-        Src/Game_Representation/Player_View.cpp
-        Src/Game_Representation/Player_View.h
-        Src/Game_Representation/Platform_View.cpp
-        Src/Game_Representation/Platform_View.h
-        Src/Game_Representation/BG_Tile_View.cpp
-        Src/Game_Representation/BG_Tile_View.h
-        Src/Game_Representation/Bonus_View.cpp
-        Src/Game_Representation/Bonus_View.h
-        Src/Game_Representation/Game.cpp
-        Src/Game_Representation/Game.h
-        Src/Game_Representation/Concrete_Factory.h
-        Src/Game_Representation/Concrete_Factory.cpp
-        Src/main.cpp
-        Src/Vector2.h
-        Src/Vector2.cpp
-        Src/window.h
-        Src/window.cpp
+        Src/Logic/Complex_Enemy_Model.cpp
+        Src/Logic/Complex_Enemy_Model.h
+        Src/Logic/Enemy_Model.cpp
+        Src/Logic/Enemy_Model.h
+        Src/Logic/Simple_Enemy_Model.cpp
+        Src/Logic/Simple_Enemy_Model.h
+        Src/Logic/Hp.h
+        Src/Logic/Hp.cpp
+        Src/Logic/Ball_Model.cpp
+        Src/Logic/Ball_Model.h
         )
+
 target_link_libraries(Doodlejump_Said_Yandarbiev
         sfml-audio
         sfml-graphics

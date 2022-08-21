@@ -10,17 +10,14 @@
 #include <thread>
 #include <unistd.h>
 
+namespace Utility{
 class Stopwatch
 {
 public:
-        static Stopwatch* getInstance()
-        {
-                static Stopwatch instance;
+        //Constructor
+        static Stopwatch* getInstance();
 
-                return &instance;
-        }
-
-        void Release()
+        static void Release()
         {
                 delete instance;
                 instance = nullptr;
@@ -28,13 +25,18 @@ public:
 
         void TimeScale(float t = 1.0f) { timescale = t; }
 
-        float TimeScale() { return timescale; }
+        float TimeScale() const { return timescale; }
 
+        //Resets the start time to the time now
         void Reset() { start_time = std::chrono::steady_clock::now(); }
 
+        //This function is called every tick and it updates the deltatime to
+        //The time now - the start_time
         void tick() { delta_time = std::chrono::steady_clock::now() - start_time; }
 
-        float getDeltaTime() { return delta_time.count(); }
+        //This function returns the delta time
+        float getDeltaTime() const { return delta_time.count(); }
+
 
         void FrameBalancing()
         {
@@ -57,10 +59,12 @@ private:
         double PreviousUpdateTime;
         double CurrentUpdateTime;
 
-        std::chrono::duration<float, std::milli> delta_time;
-        std::chrono::steady_clock::time_point start_time;
+        std::chrono::duration<float, std::milli> delta_time = std::chrono::steady_clock::now()-std::chrono::steady_clock::now();
+        std::chrono::steady_clock::time_point start_time = std::chrono::steady_clock::now();
 
-        float timescale;
+        float timescale = 1.0f;
 };
+}
+
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_STOPWATCH_H

@@ -8,54 +8,21 @@
 #include "Entity_view.h"
 #include "iostream"
 
+//Class representing the view of the player
 class Player_View : public Entity_view
 {
 public:
-        Player_View(Vector2f pos, Direction direction)
-        {
-                if (direction == Direction::Right) {
-                        texture.loadFromFile("doodle-right.png");
-                }
+        //Constructor
+        Player_View(Vector2f pos, Direction direction);
 
-                else if (direction == Direction::Left) {
-                        texture.loadFromFile("doodle-left.png");
-                }
+        //Event handled every update
+        void HandleEvent(Vector2f pos, bool flying, Direction direction, float factorx, float factory, bool shooting) override;
 
-                sprite->setTexture(texture);
-                sprite->setPosition(pos.x, pos.y);
-                int a = 0;
-        }
+        //Function that returns the width of the player
+        double GetWidth() const;
 
-        void HandleEvent(Vector2f pos, bool flying, Direction direction, float factorx, float factory)
-        {
-                if (direction == Direction::Right) {
-                        if (flying) {
-                                texture.loadFromFile("Doodle_Right_Flying.png");
-                        }
-
-                        else {
-                                texture.loadFromFile("doodle-right.png");
-                        }
-
-                }
-
-                else if (direction == Direction::Left) {
-                        if (flying) {
-                                texture.loadFromFile("Doodle_Left_Flying.png");
-                        } else {
-                                texture.loadFromFile("doodle-left.png");
-                        }
-                }
-
-                sprite->setPosition(pos.x, pos.y);
-
-                sprite->setTexture(texture);
-                sprite->setScale(factorx, factory);
-        }
-
-        double GetWidth() { return sprite->getTexture()->getSize().x; }
-
-        double GetHeight() { return sprite->getTexture()->getSize().y; }
+        //Function that returns the height of the player
+        double GetHeight() const;
 };
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_PLAYER_VIEW_H

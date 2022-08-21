@@ -7,23 +7,16 @@
 
 #include "Entity_view.h"
 
+//Class representing the view of the Background tiles
 class BG_Tile_View : public Entity_view
 {
 
 public:
-        BG_Tile_View(Vector2f pos, float scale)
-        {
-                texture.loadFromFile("BG_tile.png");
-                sprite->setTexture(texture);
-                sprite->setPosition(pos.x, pos.y);
-                sprite->setScale(scale, scale);
-        }
+        //Constructor
+        BG_Tile_View(Vector2f pos, float scale);
 
-        void HandleEvent(Vector2f vector2I, float factorx, float factory)
-        {
-                sprite->setPosition(vector2I.x, vector2I.y);
-                sprite->setScale(factorx, factory);
-        }
+        //Event handled every update
+        void HandleEvent(Vector2f vector2I, float factorx, float factory) override;
 };
 
 #endif // DOODLEJUMP_SAID_YANDARBIEV_BG_TILE_VIEW_H
