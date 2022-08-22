@@ -32,7 +32,7 @@ void Player_View::HandleEvent(Vector2f pos, bool flying, Direction direction, fl
 
                 //If the player has the helicopter bonus, we load in this texture
                 if (flying) {
-                        texture.loadFromFile("output-onlinepngtools1.png");
+                        texture.loadFromFile("Doodle_right_flying.png");
                 }
 
                 //If the player doesn't have the helicopter bonus then we load in this texture
@@ -48,7 +48,7 @@ void Player_View::HandleEvent(Vector2f pos, bool flying, Direction direction, fl
 
                 //If the player has the helicopter bonus, we load in this texture
                 if (flying) {
-                        texture.loadFromFile("output-onlinepngtools.png");
+                        texture.loadFromFile("Doodle_left_flying.png");
                 }
                 //If the player doesn't have the helicopter bonus then we load in this texture
                 else {
