@@ -5,7 +5,7 @@
 #include "Ball_View.h"
 Ball_View::Ball_View(Vector2f pos)
 {
-        texture.loadFromFile("shot.png");
+        texture.loadFromFile("Images/shot.png");
         sprite->setTexture(texture);
         sprite->setPosition(pos.x,pos.y);
 }

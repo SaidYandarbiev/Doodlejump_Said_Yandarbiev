@@ -5,7 +5,7 @@
 #include "BG_Tile_View.h"
 BG_Tile_View::BG_Tile_View(Vector2f pos, float scale)
 {
-        texture.loadFromFile("BG_tile.png");
+        texture.loadFromFile("Images/BG_tile.png");
         sprite->setTexture(texture);
         sprite->setPosition(pos.x, pos.y);
         sprite->setScale(scale, scale);

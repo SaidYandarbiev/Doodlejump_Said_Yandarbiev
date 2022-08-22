@@ -13,7 +13,7 @@ Game::Game(string title, sf::Vector2u vector2U)
         m_window = new Window(title, vector2U);
 
         sf::Color color(0,0,0);
-        font.loadFromFile("OpenSans-Bold.ttf");
+        font.loadFromFile("Images/OpenSans-Bold.ttf");
         score.setFont(font);
         score.setFillColor(color);
         score.setPosition(25,25);

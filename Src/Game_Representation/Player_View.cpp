@@ -7,11 +7,11 @@ Player_View::Player_View(Vector2f pos, Direction direction)
 {
         //If the player is facing right, then the texture for the player facing right is loaded in
         if (direction == Direction::Right) {
-                texture.loadFromFile("doodle-right.png");
+                texture.loadFromFile("Images/doodle-right.png");
         }
         //If the player is facing left, then the texture for the player facing left is loaded in
         else if (direction == Direction::Left) {
-                texture.loadFromFile("doodle-left.png");
+                texture.loadFromFile("Images/doodle-left.png");
         }
 
         sprite->setTexture(texture);
@@ -23,7 +23,7 @@ void Player_View::HandleEvent(Vector2f pos, bool flying, Direction direction, fl
 {
         //if the player is shooting, then the texture for a player shooting is loaded in
         if (shooting){
-                texture.loadFromFile("doodle-pow.png");
+                texture.loadFromFile("Images/doodle-pow.png");
         }
 
         //If the player is facing right, then the texture for the player facing right is loaded in
@@ -32,12 +32,12 @@ void Player_View::HandleEvent(Vector2f pos, bool flying, Direction direction, fl
 
                 //If the player has the helicopter bonus, we load in this texture
                 if (flying) {
-                        texture.loadFromFile("Doodle_right_flying.png");
+                        texture.loadFromFile("Images/Doodle_right_flying.png");
                 }
 
                 //If the player doesn't have the helicopter bonus then we load in this texture
                 else {
-                        texture.loadFromFile("doodle-right.png");
+                        texture.loadFromFile("Images/doodle-right.png");
                 }
 
         }
@@ -48,11 +48,11 @@ void Player_View::HandleEvent(Vector2f pos, bool flying, Direction direction, fl
 
                 //If the player has the helicopter bonus, we load in this texture
                 if (flying) {
-                        texture.loadFromFile("Doodle_left_flying.png");
+                        texture.loadFromFile("Images/Doodle_left_flying.png");
                 }
                 //If the player doesn't have the helicopter bonus then we load in this texture
                 else {
-                        texture.loadFromFile("doodle-left.png");
+                        texture.loadFromFile("Images/doodle-left.png");
                 }
         }
 

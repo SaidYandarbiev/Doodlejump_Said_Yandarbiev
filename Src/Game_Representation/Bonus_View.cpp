@@ -7,18 +7,18 @@ Bonus_View::Bonus_View(Vector2f pos, bool spring, bool copter, bool health, bool
 {
         //Depending on the type of bonus, we load in a different texture
         if (spring) {
-                texture.loadFromFile("spring.png");
+                texture.loadFromFile("Images/spring.png");
         }
 
         else if(copter){
-                texture.loadFromFile("triggered_copter.png");
+                texture.loadFromFile("Images/triggered_copter.png");
         }
 
         else if(health){
-                texture.loadFromFile("Health.png");
+                texture.loadFromFile("Images/Health.png");
         }
         else if(spikes){
-                texture.loadFromFile("spikes.png");
+                texture.loadFromFile("Images/spikes.png");
         }
 
         sprite->setTexture(texture);
@@ -29,18 +29,18 @@ void Bonus_View::HandleEvent(Vector2f pos, bool spring, bool copter, bool trigge
 
         //If the bonus is a spring and it is not yet triggered, the spring has the normal texture
         if (spring && !triggered) {
-                texture.loadFromFile("spring.png");
+                texture.loadFromFile("Images/spring.png");
                 sprite->setPosition(pos.x, pos.y);
         }
 
         else if (copter) {
-                texture.loadFromFile("triggered_copter.png");
+                texture.loadFromFile("Images/triggered_copter.png");
                 sprite->setPosition(pos.x, pos.y);
         }
 
         //If the bonus is a spring and it is touched by the player, then we load in the triggered spring texture
         else if (spring) {
-                texture.loadFromFile("spring_jump.png");
+                texture.loadFromFile("Images/spring_jump.png");
                 sprite->setPosition(pos.x, pos.y - 10);
         }
 

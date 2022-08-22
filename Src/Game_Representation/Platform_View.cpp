@@ -7,27 +7,27 @@ Platform_View::Platform_View(bool breaker, bool vertical, bool horizontal, bool 
 {
         //If a platform is a breaking platform then we load in the texture for a breaking platform
         if (breaker && !broken) {
-                texture.loadFromFile("breaking_platform.png");
+                texture.loadFromFile("Images/breaking_platform.png");
         }
 
         else if (broken) {
-                texture.loadFromFile("broken_platform.png");
+                texture.loadFromFile("Images/broken_platform.png");
         }
 
         //If a platform is neither a breaking nor a horizontal nor a vertical platform and it only moves after the player touches it
         //Then we load in the texture for this type of platform
         else if(notmoving){
-                texture.loadFromFile("jump_panel.png");
+                texture.loadFromFile("Images/jump_panel.png");
         }
 
         //If a platform is either a horizontal or a vertical platform, we load in this texture
         else if (horizontal || vertical) {
-                texture.loadFromFile("move_panel.png");
+                texture.loadFromFile("Images/move_panel.png");
         }
 
         //If the platform is just a static platform we load in this texture
         else {
-                texture.loadFromFile("static_panel.png");
+                texture.loadFromFile("Images/static_panel.png");
         }
 
         sprite->setTexture(texture);
